@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- application default theme -->
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
+
+    <!-- application launch activity theme -->
+    <style name="AppLaunchActivityTheme" parent="android:Theme.Black.NoTitleBar.Fullscreen" />
+
+    <!-- with background image and no title activity theme -->
+    <style name="WithBgImg7NoTitleActivityTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowBackground">@drawable/img_normal_bg</item>
+    </style>
+
+    <!-- with background image and no title full screen activity theme -->
+    <style name="WithBgImg7NoTitleFullScreenActivityTheme" parent="android:Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/img_normal_bg</item>
+    </style>
+
+</resources>

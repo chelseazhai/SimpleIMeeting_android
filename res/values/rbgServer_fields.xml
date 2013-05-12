@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common -->
+    <string name="rbgServer_req_resp_result">result</string>
+
+    <!-- android device common info -->
+    <string name="rbgServer_deviceBrand" translatable="false">brand</string>
+    <string name="rbgServer_deviceModel" translatable="false">model</string>
+    <string name="rbgServer_deviceOS_version" translatable="false">release</string>
+    <string name="rbgServer_deviceOS_APILevel" translatable="false">sdk</string>
+    <string name="rbgServer_deviceDisplayScreen_width" translatable="false">width</string>
+    <string name="rbgServer_deviceDisplayScreen_height" translatable="false">height</string>
+
+    <!-- binded account login and register&login with device combined unique id -->
+    <string name="rbgServer_userLoginName" translatable="false">loginName</string>
+    <string name="rbgServer_userLoginPwd" translatable="false">loginPwd</string>
+    <string name="rbgServer_login6ContactInfoBindReq_resp_userId" translatable="false">userId</string>
+    <string name="rbgServer_login6ContactInfoBindReq_resp_userName" translatable="false">username</string>
+    <string name="rbgServer_login6ContactInfoBindReq_resp_userKey" translatable="false">userkey</string>
+    <string name="rbgServer_login6ContactInfoBindReq_resp_nickname" translatable="false">nickname</string>
+    <string name="rbgServer_login6reg7LoginWithDeviceIdReq_resp_bindStatus" translatable="false">bind_status</string>
+    <string name="rbgServer_loginUser_phoneBindStatus" translatable="false">bind_phone</string>
+    <string name="rbgServer_reg7LoginWithDeviceId6ContactInfoBind_deviceId" translatable="false">deviceId</string>
+
+    <!-- phone and email bind -->
+    <string name="rbgServer_phoneBind_phoneNumber" translatable="false">phone</string>
+    <string name="rbgServer_phoneBind_verificationCode" translatable="false">phonecode</string>
+    <string name="rbgServer_phoneBind_loginPassword" translatable="false">password</string>
+    <string name="rbgServer_phoneBind_loginConfirmationPwd" translatable="false">password1</string>
+
+    <!-- contacts select view -->
+    <string name="rbgServer_scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_attendees" translatable="false">attendees</string>
+    <string name="rbgServer_newTalkingGroup6inviteNewAddedAttendee_nickname" translatable="false">nickname</string>
+    <string name="rbgServer_newTalkingGroup6inviteNewAddedAttendee_phone" translatable="false">phone</string>
+    <string name="rbgServer_scheduleNewTalkingGroup_scheduleTime" translatable="false">scheduleTime</string>
+
+    <!-- my talking group view -->
+    <string name="rbgServer_getMyTalkingGroups_offset" translatable="false">offset</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_pager" translatable="false">pager</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_pagerOffset" translatable="false">offset</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_pagerHasNext" translatable="false">hasNext</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_list" translatable="false">list</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_startedTimestamp" translatable="false">scheduled_time</string>
+    <string name="rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id" translatable="false">conferenceId</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_status" translatable="false">status</string>
+    <string name="rbgServer_myTalkingGroup_talkingGroupOpened" translatable="false">OPEN</string>
+    <string name="rbgServer_myTalkingGroup_talkingGroupSchedule" translatable="false">SCHEDULE</string>
+    <string name="rbgServer_getMyTalkingGroupsReq_resp_attendees" translatable="false">attendees</string>
+    <string name="rbgServer_myTalkingGroupAttendee_phone" translatable="false">phone</string>
+    <string name="rbgServer_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId" translatable="false">conferenceId</string>
+    <string name="rbgServer_getTalkingGroupAttendeesReq_resp_nickname" translatable="false">nickname</string>
+    <string name="rbgServer_getTalkingGroupAttendeesReq_resp_phone" translatable="false">phone</string>
+    <string name="rbgServer_getTalkingGroupAttendeesReq_resp_status" translatable="false">telephone_status</string>
+    <string name="rbgServer_talkingGroupAttendee_attendeeIn" translatable="false">Established</string>
+    <string name="rbgServer_talkingGroupAttendee_attendeeOut" translatable="false">Terminated</string>
+
+</resources>

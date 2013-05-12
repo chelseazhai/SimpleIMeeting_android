@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common -->
+    <string name="toast_request_exception">連接伺服器異常，請稍後重識</string>
+
+    <!-- binded account login, register&login with device combined unique id and phone and email bind -->
+    <string name="toast_bindedAccount_login_userName6Pwd_wrong">登錄用戶名或者密碼錯誤，請稍後重新登錄</string>
+    <string name="toast_phoneBind_phoneNumber_null">綁定的移動裝置號碼不能為空</string>
+    <string name="toast_phoneBind_phoneNumber_invalid">綁定的移動裝置號碼不可用</string>
+    <string name="toast_phoneBind_phoneNumber_binded">此移動裝置號碼已與其他設備綁定過</string>
+    <string name="toast_phoneBind_verificationCode_null">驗證碼不能為空</string>
+    <string name="toast_phoneBind_loginPassword_null">移動裝置綁定的密碼不能為空</string>
+    <string name="toast_phoneBind_loginConfirmationPwd_null">移動裝置綁定的驗證密碼不能為空</string>
+    <string name="toast_phoneBind_loginTwoPwd_notMatched">移動裝置綁定的密碼和驗證密碼不一致</string>
+    <string name="toast_phoneBind_verificationCode_wrong">驗證碼錯誤</string>
+    <string name="toast_phoneBind_verificationCode_timeout">驗證碼超時，請重新獲取</string>
+    <string name="toast_bindedAccount_login_userName_null">登錄用戶名不能為空</string>
+    <string name="toast_bindedAccount_login_password_null">登錄密碼不能為空</string>
+
+    <!-- contacts select view -->
+    <string name="toast_manualInputContact_phoneNumber_null">添加的移動裝置號碼不能為空</string>
+    <string name="toast_selectedContact_existedInTalkingGroup_attendees">已使用此號碼加入會議</string>
+    <string name="toast_selectedContact_atLeastSelectOneContact">請添加一個聯繫人到會議</string>
+    <string name="toast_selectedContact_useTheSelectedPhone_existedInPreinTalkingGroup_contacts">已使用此號碼準備加入會議</string>
+    <string name="toast_selectedContact_useAnotherPhone_existedInPreinTalkingGroup_contacts">已使用其他號碼準備加入會議</string>
+    <string name="toast_selectedStartedtime4newTalkingGroup_tooEarly">時間無法倒流，會議開始時間已為過去時</string>
+    <string name="toast_acheduleNewTalkingGroup_notAccept">遠程伺服器拒絕安排一個新的會議</string>
+
+</resources>
