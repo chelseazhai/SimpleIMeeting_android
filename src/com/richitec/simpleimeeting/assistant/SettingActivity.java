@@ -50,6 +50,9 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 	private static final String LOG_TAG = SettingActivity.class
 			.getCanonicalName();
 
+	// my account changed flag, login or logout
+	public static final String SETTING_CHANGEDMYACCOUNT_KEY = "setting_activity_changed_myaccount";
+
 	// binded account login, phone and email bind alertDialog
 	private AlertDialog _mBindedAccountLoginAlertDialog;
 	private AlertDialog _mPhoneBindAlertDialog;
@@ -78,7 +81,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 		setTitle(R.string.setting_nav_title_text);
 
 		// update my account and contacts info bind group UI
-		updateMyAccount7ContactsInfoBindGroupUI();
+		updateMyAccount7ContactsInfoBindGroupUI(false);
 
 		// define a alertDialog builder
 		final Builder ALERTDIALOG_BUILDER = new AlertDialog.Builder(this);
@@ -139,8 +142,9 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 		return _mBindedAccountLoginAlertDialog;
 	}
 
-	// update my account and contacts info bind group UI
-	public void updateMyAccount7ContactsInfoBindGroupUI() {
+	// update my account and contacts info bind group UI with my account changed
+	// flag
+	public void updateMyAccount7ContactsInfoBindGroupUI(boolean myAccountChanged) {
 		// get login user
 		UserBean _loginUser = UserManager.getInstance().getUser();
 
@@ -170,6 +174,12 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 								R.string.rbgServer_login6reg7LoginWithDeviceId7PhoneBind_phoneBindedStatus)
 						.equalsIgnoreCase(_contactsInfoBeBinded) ? false : true
 						: true);
+
+		// check my account changed or not
+		if (myAccountChanged) {
+			// set my account changed flag to setting intent extra data
+			getIntent().putExtra(SETTING_CHANGEDMYACCOUNT_KEY, true);
+		}
 	}
 
 	// check and cancel the get phone bind verification code again timer task
@@ -691,7 +701,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 						.md5(((EditText) _mPhoneBindAlertDialog
 								.findViewById(R.id.pbd_bindingAccount_loginPwd_editText))
 								.getText().toString());
-				DataStorageUtils.putObject(ComUserAttributes.NAME.name(),
+				DataStorageUtils.putObject(ComUserAttributes.PASSWORD.name(),
 						_loginPwd);
 
 				// get confirm bind phone response userId and userKey
@@ -735,7 +745,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 				UserManager.getInstance().setUser(_newBindedGenerateUser);
 
 				// update my account and contacts info bind group UI
-				updateMyAccount7ContactsInfoBindGroupUI();
+				updateMyAccount7ContactsInfoBindGroupUI(false);
 			} else {
 				processConfirmBindPhoneException(response);
 			}

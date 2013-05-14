@@ -133,13 +133,13 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 				// account logout
 				if (Reg7LoginWithDeviceIdType.BINDEDACCOUNT_LOGOUT == _mReg7LoginWithDeviceIdType) {
 					((SettingActivity) _mContext)
-							.updateMyAccount7ContactsInfoBindGroupUI();
+							.updateMyAccount7ContactsInfoBindGroupUI(true);
 
 					// clear login user name and password to local storage
 					DataStorageUtils.putObject(
 							SIMUserExtAttributes.BIND_CONTACTINFO.name(), "");
-					DataStorageUtils.putObject(ComUserAttributes.NAME.name(),
-							"");
+					DataStorageUtils.putObject(
+							ComUserAttributes.PASSWORD.name(), "");
 				}
 				break;
 
