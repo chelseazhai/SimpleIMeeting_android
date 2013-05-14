@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
@@ -23,14 +25,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.richitec.commontoolkit.user.User;
 import com.richitec.commontoolkit.user.UserBean;
 import com.richitec.commontoolkit.user.UserManager;
 import com.richitec.commontoolkit.utils.DataStorageUtils;
 import com.richitec.commontoolkit.utils.DeviceUtils;
 import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.HttpRequestType;
-import com.richitec.commontoolkit.utils.HttpUtils.HttpResponseResult;
 import com.richitec.commontoolkit.utils.HttpUtils.OnHttpRequestListener;
 import com.richitec.commontoolkit.utils.HttpUtils.PostRequestFormat;
 import com.richitec.commontoolkit.utils.JSONUtils;
@@ -42,6 +42,7 @@ import com.richitec.simpleimeeting.assistant.httprequestlistener.RegAndLoginWith
 import com.richitec.simpleimeeting.assistant.httprequestlistener.RegAndLoginWithDeviceIdHttpRequestListener.Reg7LoginWithDeviceIdType;
 import com.richitec.simpleimeeting.customcomponent.SimpleIMeetingNavigationActivity;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension;
+import com.richitec.simpleimeeting.extension.user.SIMUserExtension.ComUserAttributes;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension.SIMUserExtAttributes;
 
 public class SettingActivity extends SimpleIMeetingNavigationActivity {
@@ -166,7 +167,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 		((ImageButton) findViewById(R.id.set_phoneBind_imageButton))
 				.setEnabled(null != _contactsInfoBeBinded ? getResources()
 						.getString(
-								R.string.bg_server_login6reg7LoginWithDeviceIdReq_resp_bindPhoneStatus)
+								R.string.rbgServer_login6reg7LoginWithDeviceId7PhoneBind_phoneBindedStatus)
 						.equalsIgnoreCase(_contactsInfoBeBinded) ? false : true
 						: true);
 	}
@@ -211,7 +212,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 			_reg7LoginWithDeviceIdParamMap
 					.put(getResources()
 							.getString(
-									R.string.bg_server_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
+									R.string.rbgServer_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
 							DeviceUtils.combinedUniqueId());
 
 			// post the http request
@@ -354,7 +355,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 
 				// set some params
 				_getPhoneBindVerificationCodeParamMap.put(getResources()
-						.getString(R.string.bg_server_phoneBind_phoneNumber),
+						.getString(R.string.rbgServer_phoneBind_phoneNumber),
 						_willBeBindedPhone);
 
 				// post the http request
@@ -378,10 +379,10 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 			OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// get http response entity string json data
-			JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-					.getResponseText());
+			JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send get phone bind verification code post http request successful, response json data = "
@@ -390,44 +391,43 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 			// get the result from http response json data
 			String _result = JSONUtils.getStringFromJSONObject(_respJsonData,
 					getResources()
-							.getString(R.string.bg_server_req_resp_result));
+							.getString(R.string.rbgServer_req_resp_result));
 
 			// check result
 			if (null != _result && 0 == Integer.parseInt(_result)) {
 				Log.d(LOG_TAG, "Get phone bind verification code successful!");
 			} else {
-				processGetPhoneBindVerificationCodeException(responseResult);
+				processGetPhoneBindVerificationCodeException(response);
 			}
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			Log.e(LOG_TAG,
 					"Send get phone bind verification code post http request failed!");
 
-			processGetPhoneBindVerificationCodeException(responseResult);
+			processGetPhoneBindVerificationCodeException(response);
 		}
 
 		// process get phone bind verification code exception
 		private void processGetPhoneBindVerificationCodeException(
-				HttpResponseResult responseResult) {
+				HttpResponse response) {
 			// make get phone bind verification code failed toast
 			Toast _getPhoneBindVerificationCodeFailedToast = Toast.makeText(
 					SettingActivity.this, R.string.toast_request_exception,
 					Toast.LENGTH_LONG);
 
 			// get and check response result
-			switch (responseResult.getStatusCode()) {
+			switch (response.getStatusLine().getStatusCode()) {
 			case HttpStatus.SC_ACCEPTED:
 			case HttpStatus.SC_CREATED:
 			case HttpStatus.SC_OK:
 				// get the result from http response json data
-				String _result = JSONUtils
-						.getStringFromJSONObject(
-								JSONUtils.toJSONObject(responseResult
-										.getResponseText()),
-								getResources().getString(
-										R.string.bg_server_req_resp_result));
+				String _result = JSONUtils.getStringFromJSONObject(
+						JSONUtils.toJSONObject(HttpUtils
+								.getHttpResponseEntityString(response)),
+						getResources().getString(
+								R.string.rbgServer_req_resp_result));
 
 				// check the result
 				if (null != _result) {
@@ -625,24 +625,24 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 			// set some params
 			_confirmBindPhoneParamMap.put(
 					getResources().getString(
-							R.string.bg_server_phoneBind_phoneNumber),
+							R.string.rbgServer_phoneBind_phoneNumber),
 					_willBeBindedPhone);
 			_confirmBindPhoneParamMap.put(
 					getResources().getString(
-							R.string.bg_server_phoneBind_verificationCode),
+							R.string.rbgServer_phoneBind_verificationCode),
 					_verificationCode);
 			_confirmBindPhoneParamMap.put(
 					getResources().getString(
-							R.string.bg_server_phoneBind_loginPassword),
+							R.string.rbgServer_phoneBind_loginPassword),
 					_loginPwd);
 			_confirmBindPhoneParamMap.put(
 					getResources().getString(
-							R.string.bg_server_phoneBind_loginConfirmationPwd),
+							R.string.rbgServer_phoneBind_loginConfirmationPwd),
 					_loginConfirmationPwd);
 			_confirmBindPhoneParamMap
 					.put(getResources()
 							.getString(
-									R.string.bg_server_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
+									R.string.rbgServer_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
 							DeviceUtils.combinedUniqueId());
 
 			// post the http request
@@ -659,10 +659,10 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 	class PhoneBindConfirmHttpRequestListener extends OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// get http response entity string json data
-			JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-					.getResponseText());
+			JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send phone bind confirm post http request successful, response json data = "
@@ -671,7 +671,7 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 			// get the result from http response json data
 			String _result = JSONUtils.getStringFromJSONObject(_respJsonData,
 					getResources()
-							.getString(R.string.bg_server_req_resp_result));
+							.getString(R.string.rbgServer_req_resp_result));
 
 			// check result
 			if (null != _result && 0 == Integer.parseInt(_result)) {
@@ -691,7 +691,8 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 						.md5(((EditText) _mPhoneBindAlertDialog
 								.findViewById(R.id.pbd_bindingAccount_loginPwd_editText))
 								.getText().toString());
-				DataStorageUtils.putObject(User.password.name(), _loginPwd);
+				DataStorageUtils.putObject(ComUserAttributes.NAME.name(),
+						_loginPwd);
 
 				// get confirm bind phone response userId and userKey
 				String _confirmBindPhoneRespUserId = JSONUtils
@@ -699,17 +700,25 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 								_respJsonData,
 								getResources()
 										.getString(
-												R.string.bg_server_login6ContactInfoBindReq_resp_userId));
+												R.string.rbgServer_login6ContactInfoBindReq_resp_userId));
 				String _confirmBindPhoneRespUserKey = JSONUtils
 						.getStringFromJSONObject(
 								_respJsonData,
 								getResources()
 										.getString(
-												R.string.bg_server_login6ContactInfoBindReq_resp_userKey));
+												R.string.rbgServer_login6ContactInfoBindReq_resp_userKey));
+				String _confirmBindPhoneRespBindStatus = JSONUtils
+						.getStringFromJSONObject(
+								_respJsonData,
+								getResources()
+										.getString(
+												R.string.rbgServer_login6reg7LoginWithDeviceId7PhoneBindReq_resp_bindStatus));
 
 				Log.d(LOG_TAG, "Bind phone successful, response user id = "
-						+ _confirmBindPhoneRespUserId + " and user key = "
-						+ _confirmBindPhoneRespUserKey);
+						+ _confirmBindPhoneRespUserId + ", user key = "
+						+ _confirmBindPhoneRespUserKey
+						+ " and contacts info be binded = "
+						+ _confirmBindPhoneRespBindStatus);
 
 				// generate new binded generate user bean and set other
 				// attributes
@@ -718,6 +727,9 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 						_confirmBindPhoneRespUserKey);
 				SIMUserExtension.setUserBindContactInfo(_newBindedGenerateUser,
 						_bindedPhone);
+				SIMUserExtension
+						.setUserContactsInfoBeBinded(_newBindedGenerateUser,
+								_confirmBindPhoneRespBindStatus);
 
 				// add it to user manager
 				UserManager.getInstance().setUser(_newBindedGenerateUser);
@@ -725,37 +737,35 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 				// update my account and contacts info bind group UI
 				updateMyAccount7ContactsInfoBindGroupUI();
 			} else {
-				processConfirmBindPhoneException(responseResult);
+				processConfirmBindPhoneException(response);
 			}
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			Log.e(LOG_TAG, "Send phone bind confirm post http request failed!");
 
-			processConfirmBindPhoneException(responseResult);
+			processConfirmBindPhoneException(response);
 		}
 
 		// process confirm bind phone exception
-		private void processConfirmBindPhoneException(
-				HttpResponseResult responseResult) {
+		private void processConfirmBindPhoneException(HttpResponse response) {
 			// make confirm bind phone failed toast
 			Toast _confirmBindPhoneFailedToast = Toast.makeText(
 					SettingActivity.this, R.string.toast_request_exception,
 					Toast.LENGTH_LONG);
 
 			// get and check response result
-			switch (responseResult.getStatusCode()) {
+			switch (response.getStatusLine().getStatusCode()) {
 			case HttpStatus.SC_ACCEPTED:
 			case HttpStatus.SC_CREATED:
 			case HttpStatus.SC_OK:
 				// get the result from http response json data
-				String _result = JSONUtils
-						.getStringFromJSONObject(
-								JSONUtils.toJSONObject(responseResult
-										.getResponseText()),
-								getResources().getString(
-										R.string.bg_server_req_resp_result));
+				String _result = JSONUtils.getStringFromJSONObject(
+						JSONUtils.toJSONObject(HttpUtils
+								.getHttpResponseEntityString(response)),
+						getResources().getString(
+								R.string.rbgServer_req_resp_result));
 
 				// check the result
 				if (null != _result) {
@@ -941,10 +951,10 @@ public class SettingActivity extends SimpleIMeetingNavigationActivity {
 
 			// set some params
 			_bindedAccountLoginParamMap.put(
-					getResources().getString(R.string.bg_server_userLoginName),
+					getResources().getString(R.string.rbgServer_userLoginName),
 					_loginUserName);
 			_bindedAccountLoginParamMap.put(
-					getResources().getString(R.string.bg_server_userLoginPwd),
+					getResources().getString(R.string.rbgServer_userLoginPwd),
 					StringUtils.md5(_loginPassword));
 
 			// post the http request

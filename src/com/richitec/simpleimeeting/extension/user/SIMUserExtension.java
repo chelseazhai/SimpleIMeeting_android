@@ -77,7 +77,12 @@ public class SIMUserExtension {
 	}
 
 	// inner class
-	// simple iMeeting user extension attributes
+	// common user attributes
+	public static enum ComUserAttributes {
+		NAME, PASSWORD, USER_KEY
+	}
+
+	// simple imeeting user extension attributes
 	public static enum SIMUserExtAttributes {
 		BIND_CONTACTINFO, NICKNAME, CONTACTSINFO_BEBINDED
 	}

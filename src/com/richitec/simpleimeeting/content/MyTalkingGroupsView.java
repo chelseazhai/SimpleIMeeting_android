@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,16 +39,16 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.richitec.commontoolkit.addressbook.AddressBookManager;
 import com.richitec.commontoolkit.customadapter.CTListAdapter;
 import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.HttpRequestType;
-import com.richitec.commontoolkit.utils.HttpUtils.HttpResponseResult;
 import com.richitec.commontoolkit.utils.HttpUtils.OnHttpRequestListener;
 import com.richitec.commontoolkit.utils.HttpUtils.PostRequestFormat;
 import com.richitec.commontoolkit.utils.JSONUtils;
 import com.richitec.simpleimeeting.R;
-import com.richitec.simpleimeeting.extension.view.SIMBaseView;
 import com.richitec.simpleimeeting.content.SimpleIMeetingActivity.SimpleIMeetingActivityContentViewType;
+import com.richitec.simpleimeeting.extension.view.SIMBaseView;
 
 public class MyTalkingGroupsView extends SIMBaseView implements
 		NewTalkingGroupListener {
@@ -234,7 +236,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_startedTimestamp));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_startedTimestamp));
 			Object _groupStartedTime = getContext().getResources().getString(
 					R.string.myTalkingGroup_startedTime_hint)
 					+ MYTALKINGGROUP_STARTEDTIMEDATEFORMAT
@@ -247,21 +249,21 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 									getContext()
 											.getResources()
 											.getString(
-													R.string.bg_server_getMyTalkingGroups6newTalkingGroupIdReq_resp_id));
+													R.string.rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id));
 			Object _groupStatus = JSONUtils
 					.getStringFromJSONObject(
 							_groupInfoJsonObject,
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_status));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_status));
 
 			// check my talking group status and reset my talking group started
 			// time, group id and status
 			if (getContext()
 					.getResources()
 					.getString(
-							R.string.bg_server_myTalkingGroup_talkingGroupOpened)
+							R.string.rbgServer_myTalkingGroup_talkingGroupOpened)
 					.equalsIgnoreCase((String) _groupStatus)) {
 				// dark sea green foreground color span
 				ForegroundColorSpan _darkSeaGreenForegroundColorSpan = new ForegroundColorSpan(
@@ -292,7 +294,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			} else if (getContext()
 					.getResources()
 					.getString(
-							R.string.bg_server_myTalkingGroup_talkingGroupSchedule)
+							R.string.rbgServer_myTalkingGroup_talkingGroupSchedule)
 					.equalsIgnoreCase((String) _groupStatus)) {
 				// milliseconds per second， seconds per day, hour and minute
 				final Long MILLISECONDS_PER_SECOND = 1000L;
@@ -417,7 +419,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 		// get my talking group pager offset and set some params
 		_getMoreTalkingGroupsParamMap
 				.put(getContext().getResources().getString(
-						R.string.bg_server_getMyTalkingGroups_offset),
+						R.string.rbgServer_getMyTalkingGroups_offset),
 						Integer.valueOf(
 								JSONUtils
 										.getIntegerFromJSONObject(
@@ -425,7 +427,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 												getContext()
 														.getResources()
 														.getString(
-																R.string.bg_server_getMyTalkingGroupsReq_resp_pagerOffset)) + 1)
+																R.string.rbgServer_getMyTalkingGroupsReq_resp_pagerOffset)) + 1)
 								.toString());
 
 		// post the http request
@@ -458,14 +460,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 					.put(getContext()
 							.getResources()
 							.getString(
-									R.string.bg_server_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
+									R.string.rbgServer_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
 							JSONUtils
 									.getStringFromJSONObject(
 											_selectedTalkingGroupInfo,
 											getContext()
 													.getResources()
 													.getString(
-															R.string.bg_server_getMyTalkingGroups6newTalkingGroupIdReq_resp_id)));
+															R.string.rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id)));
 
 			// post the http request
 			HttpUtils.postSignatureRequest(
@@ -544,21 +546,21 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getTalkingGroupAttendeesReq_resp_status));
+											R.string.rbgServer_getTalkingGroupAttendeesReq_resp_status));
 			String _attebdeeNickname = JSONUtils
 					.getStringFromJSONObject(
 							_attendeeInfoJsonObject,
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getTalkingGroupAttendeesReq_resp_nickname));
+											R.string.rbgServer_getTalkingGroupAttendeesReq_resp_nickname));
 			String _attendeePhone = JSONUtils
 					.getStringFromJSONObject(
 							_attendeeInfoJsonObject,
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getTalkingGroupAttendeesReq_resp_phone));
+											R.string.rbgServer_getTalkingGroupAttendeesReq_resp_phone));
 
 			// add the attendee phone to selected talking group attendees phone
 			// array
@@ -571,7 +573,8 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 				_attendeeDisplayName = _attebdeeNickname;
 			} else {
 				// get phone ownership in addressbook
-				_attendeeDisplayName = _attendeePhone;
+				_attendeeDisplayName = AddressBookManager.getInstance()
+						.getContactsDisplayNamesByPhone(_attendeePhone).get(0);
 			}
 
 			// check talking group status, its attendee status and reset talking
@@ -579,13 +582,13 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			if (getContext()
 					.getResources()
 					.getString(
-							R.string.bg_server_myTalkingGroup_talkingGroupSchedule)
+							R.string.rbgServer_myTalkingGroup_talkingGroupSchedule)
 					.equalsIgnoreCase((String) myTalkingGroupStatus)) {
 				_attendeeStatus = null;
 			} else if (getContext()
 					.getResources()
 					.getString(
-							R.string.bg_server_talkingGroupAttendee_attendeeIn)
+							R.string.rbgServer_talkingGroupAttendee_attendeeIn)
 					.equalsIgnoreCase((String) _attendeeStatus)) {
 				_attendeeStatus = getContext().getResources().getDrawable(
 						android.R.drawable.presence_online);
@@ -604,7 +607,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			} else if (getContext()
 					.getResources()
 					.getString(
-							R.string.bg_server_talkingGroupAttendee_attendeeOut)
+							R.string.rbgServer_talkingGroupAttendee_attendeeOut)
 					.equalsIgnoreCase((String) _attendeeStatus)) {
 				_attendeeStatus = getContext().getResources().getDrawable(
 						android.R.drawable.presence_invisible);
@@ -663,7 +666,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_pagerHasNext))) {
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_pagerHasNext))) {
 				// set loading more talking groups footer view as my talking
 				// group listView footer view
 				_mMyTalkingGroupListView
@@ -685,13 +688,13 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// my talking group pull to refresh listView refresh complete
 			_mMyTalkingGroupPull2RefreshListView.onRefreshComplete();
 
 			// get http response entity string json data
-			JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-					.getResponseText());
+			JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send get my talking group list post http request successful, response json data = "
@@ -704,14 +707,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_pager));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_pager));
 			_mMyTalkingGroupsInfoArray = JSONUtils
 					.getJSONArrayFromJSONObject(
 							_respJsonData,
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_list));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_list));
 
 			// get no talking group tip textView and my talking groups
 			// linearLayout
@@ -754,7 +757,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			// my talking group pull to refresh listView refresh complete
 			_mMyTalkingGroupPull2RefreshListView.onRefreshComplete();
 
@@ -846,14 +849,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// remove my talking group list view footer view
 			_mMyTalkingGroupListView
 					.removeFooterView(_mMyTalkingGroupListViewFooterView);
 
 			// get http response entity string json data
-			JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-					.getResponseText());
+			JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send get more talking group list post http request successful, response json data = "
@@ -866,14 +869,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_pager));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_pager));
 			JSONArray _moreTalkingGroupsInfoArray = JSONUtils
 					.getJSONArrayFromJSONObject(
 							_respJsonData,
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroupsReq_resp_list));
+											R.string.rbgServer_getMyTalkingGroupsReq_resp_list));
 
 			// add more talking groups info array to my talking groups info
 			// array
@@ -901,7 +904,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			// remove my talking group list view footer view
 			_mMyTalkingGroupListView
 					.removeFooterView(_mMyTalkingGroupListViewFooterView);
@@ -948,8 +951,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 								.getItem(_lastPressedTalkingGroupIndex);
 
 						// recover last selected talking group item background
-						// and
-						// hide detail info
+						// and hide detail info
 						// update adapter data map for last selected
 						_myTalkingGroupAdapterDataMap.put(
 								GROUP_SELECTED4ITEM,
@@ -966,8 +968,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							.getItem((int) id);
 
 					// update selected talking group item background and show
-					// detail
-					// info
+					// detail info
 					// update adapter data map for current selected
 					_myTalkingGroupAdapterDataMap
 							.put(GROUP_SELECTED4ITEM,
@@ -975,10 +976,12 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 											.getResources()
 											.getDrawable(
 													R.drawable.img_mytalkinggroup_touchdown_bg));
-					_myTalkingGroupAdapterDataMap.put(
-							GROUP_SELECTED4DETAIL,
-							getContext().getResources().getDrawable(
-									R.drawable.img_mytalkinggroup_detailinfo));
+					_myTalkingGroupAdapterDataMap
+							.put(GROUP_SELECTED4DETAIL,
+									getContext()
+											.getResources()
+											.getDrawable(
+													R.drawable.img_scheduledmytalkinggroup_detailinfo));
 
 					// notify adapter changed
 					_mMyTalkingGroupAdapter.notifyDataSetChanged();
@@ -1001,10 +1004,10 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 			OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// get http response entity string json data
-			JSONArray _respJsonData = JSONUtils.toJSONArray(responseResult
-					.getResponseText());
+			JSONArray _respJsonData = JSONUtils.toJSONArray(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send get talking group attendee list post http request successful, response json data = "
@@ -1024,7 +1027,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 											getContext()
 													.getResources()
 													.getString(
-															R.string.bg_server_getMyTalkingGroupsReq_resp_status)),
+															R.string.rbgServer_getMyTalkingGroupsReq_resp_status)),
 							_respJsonData));
 
 			// show my talking group attendee listView relativeLayout
@@ -1032,7 +1035,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			Log.e(LOG_TAG,
 					"Send get talking group attendee list post http request failed");
 
@@ -1079,7 +1082,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 							getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getMyTalkingGroups6newTalkingGroupIdReq_resp_id));
+											R.string.rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id));
 			_confId7inviteNote7newAddedContactsPhoneList.add(_confId);
 
 			// init invite new contact to talking group note and add to
@@ -1099,7 +1102,7 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 											getContext()
 													.getResources()
 													.getString(
-															R.string.bg_server_getMyTalkingGroupsReq_resp_startedTimestamp))))
+															R.string.rbgServer_getMyTalkingGroupsReq_resp_startedTimestamp))))
 					.replace("***", _confId);
 			_confId7inviteNote7newAddedContactsPhoneList
 					.add(_inviteNewContact2TalkingGroupNote);

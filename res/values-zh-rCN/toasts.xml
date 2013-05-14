@@ -12,7 +12,7 @@
     <string name="toast_phoneBind_verificationCode_null">验证码不能为空</string>
     <string name="toast_phoneBind_loginPassword_null">手机绑定的密码不能为空</string>
     <string name="toast_phoneBind_loginConfirmationPwd_null">手机绑定的验证密码不能为空</string>
-    <string name="toast_phoneBind_loginTwoPwd_notMatched">手机绑定的密码和验证密码不一致</string>
+    <string name="toast_phoneBind_loginTwoPwd_notMatched">手机的绑定密码和验证密码不一致</string>
     <string name="toast_phoneBind_verificationCode_wrong">验证码错误</string>
     <string name="toast_phoneBind_verificationCode_timeout">验证码超时，请重新获取</string>
     <string name="toast_bindedAccount_login_userName_null">登录用户名不能为空</string>

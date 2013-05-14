@@ -2,6 +2,8 @@ package com.richitec.simpleimeeting.content;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,8 @@ import com.richitec.commontoolkit.customcomponent.BarButtonItem.BarButtonItemSty
 import com.richitec.commontoolkit.customcomponent.CTMenu;
 import com.richitec.commontoolkit.customcomponent.CTMenu.CTMenuOnItemSelectedListener;
 import com.richitec.commontoolkit.utils.DisplayScreenUtils;
+import com.richitec.commontoolkit.utils.VersionUtils;
+import com.richitec.commontoolkit.utils.VersionUtils.APPUPGRADEMODE;
 import com.richitec.simpleimeeting.R;
 import com.richitec.simpleimeeting.assistant.AboutActivity;
 import com.richitec.simpleimeeting.assistant.SettingActivity;
@@ -84,6 +88,12 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 		setRightBarButtonItem(new SimpleIMeetingImageBarButtonItem(this,
 				android.R.drawable.ic_dialog_info, BarButtonItemStyle.RIGHT_GO,
 				new MoreMenuImageBarButtonItemOnClickListener()));
+
+		// check for upgrading simple imeeting project
+		VersionUtils.upgradeApp(this,
+				getResources().getString(R.string.app_id), getResources()
+						.getString(R.string.appvcenter_url),
+				APPUPGRADEMODE.AUTO);
 	}
 
 	@Override
@@ -109,6 +119,28 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 		// get simple imeeting main activity content view(simple imeeting view)
 		// and call its onStop method
 		_mContentView.onStop();
+	}
+
+	@Override
+	public void onBackPressed() {
+		// show exit imeeting simple client alert dialog
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.simpleIMeeting_exitAlertDialog_title)
+				.setMessage(R.string.simpleIMeeting_exitAlertDialog_message)
+				.setPositiveButton(
+						R.string.simpleIMeeting_exitAlertDialog_exitButton_title,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// exit simple imeeting project
+								System.exit(0);
+							}
+						})
+				.setNegativeButton(
+						R.string.simpleIMeeting_exitAlertDialog_cancelButton_title,
+						null).show();
 	}
 
 	// switch to my talking group list view

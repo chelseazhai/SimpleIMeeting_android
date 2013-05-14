@@ -13,16 +13,18 @@ import com.richitec.commontoolkit.activityextension.AppLaunchActivity;
 import com.richitec.commontoolkit.addressbook.AddressBookManager;
 import com.richitec.commontoolkit.user.UserBean;
 import com.richitec.commontoolkit.user.UserManager;
+import com.richitec.commontoolkit.utils.DataStorageUtils;
 import com.richitec.commontoolkit.utils.DeviceUtils;
 import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.HttpRequestType;
 import com.richitec.commontoolkit.utils.HttpUtils.PostRequestFormat;
 import com.richitec.simpleimeeting.assistant.httprequestlistener.BindedAccountLoginHttpRequestListener;
 import com.richitec.simpleimeeting.assistant.httprequestlistener.RegAndLoginWithDeviceIdHttpRequestListener;
+import com.richitec.simpleimeeting.content.ContactsSelectView;
+import com.richitec.simpleimeeting.content.SimpleIMeetingActivity;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension;
-import com.richitec.simpleimeeting.talkinggroup.ContactsSelectView;
-import com.richitec.simpleimeeting.talkinggroup.SimpleIMeetingActivity;
-import com.richitec.simpleimeeting.utils.AppDataSaveRestoreUtils;
+import com.richitec.simpleimeeting.extension.user.SIMUserExtension.ComUserAttributes;
+import com.richitec.simpleimeeting.extension.user.SIMUserExtension.SIMUserExtAttributes;
 
 public class SimpleIMeetingAppLaunchActivity extends AppLaunchActivity {
 
@@ -45,6 +47,12 @@ public class SimpleIMeetingAppLaunchActivity extends AppLaunchActivity {
 	}
 
 	@Override
+	public void onBackPressed() {
+		// exit simple imeeting project
+		System.exit(0);
+	}
+
+	@Override
 	public Drawable splashImg() {
 		return getResources().getDrawable(R.drawable.ic_splash);
 	}
@@ -63,18 +71,27 @@ public class SimpleIMeetingAppLaunchActivity extends AppLaunchActivity {
 	@Override
 	public boolean didFinishLaunching() {
 		// traversal address book
-		AddressBookManager
-				.setFilterMode(AddressBookManager.FILTER_IP_AND_CODE_PREFIX);
 		AddressBookManager.getInstance().traversalAddressBook();
 
 		// init all name phonetic sorted contacts info array
 		ContactsSelectView.initNamePhoneticSortedContactsInfoArray();
 
-		// load account
-		AppDataSaveRestoreUtils.loadAccount();
+		// get binded account login user info from storage and add to user
+		// manager
+		UserBean _localStorageUser = new UserBean();
 
-		// get and check the generate user from local storage
-		UserBean _localStorageUser = UserManager.getInstance().getUser();
+		// set bind contact info and password
+		_localStorageUser.setPassword(DataStorageUtils
+				.getString(ComUserAttributes.PASSWORD.name()));
+		SIMUserExtension
+				.setUserBindContactInfo(
+						_localStorageUser,
+						DataStorageUtils
+								.getString(SIMUserExtAttributes.BIND_CONTACTINFO
+										.name()));
+
+		// save user bean and add to user manager
+		UserManager.getInstance().setUser(_localStorageUser);
 
 		// get local storage user bind contact info and password
 		String _bindContactInfo = SIMUserExtension
@@ -90,10 +107,10 @@ public class SimpleIMeetingAppLaunchActivity extends AppLaunchActivity {
 
 			// set some params
 			_bindedAccountLoginParamMap.put(
-					getResources().getString(R.string.bg_server_userLoginName),
+					getResources().getString(R.string.rbgServer_userLoginName),
 					SIMUserExtension.getUserBindContactInfo(_localStorageUser));
 			_bindedAccountLoginParamMap.put(
-					getResources().getString(R.string.bg_server_userLoginPwd),
+					getResources().getString(R.string.rbgServer_userLoginPwd),
 					_localStorageUser.getPassword());
 
 			// post the http request
@@ -139,7 +156,7 @@ public class SimpleIMeetingAppLaunchActivity extends AppLaunchActivity {
 		_reg7LoginWithDeviceIdParamMap
 				.put(getResources()
 						.getString(
-								R.string.bg_server_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
+								R.string.rbgServer_reg7LoginWithDeviceId6ContactInfoBind_deviceId),
 						DeviceUtils.combinedUniqueId());
 
 		// post the http request

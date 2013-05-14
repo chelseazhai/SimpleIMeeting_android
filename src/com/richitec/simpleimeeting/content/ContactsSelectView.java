@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -59,15 +62,14 @@ import com.richitec.commontoolkit.utils.CommonUtils;
 import com.richitec.commontoolkit.utils.DisplayScreenUtils;
 import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.HttpRequestType;
-import com.richitec.commontoolkit.utils.HttpUtils.HttpResponseResult;
 import com.richitec.commontoolkit.utils.HttpUtils.OnHttpRequestListener;
 import com.richitec.commontoolkit.utils.HttpUtils.PostRequestFormat;
 import com.richitec.commontoolkit.utils.JSONUtils;
 import com.richitec.commontoolkit.utils.StringUtils;
 import com.richitec.simpleimeeting.R;
-import com.richitec.simpleimeeting.extension.view.SIMBaseView;
 import com.richitec.simpleimeeting.content.MyTalkingGroupsView.MyTalkingGroupsViewRefreshType;
 import com.richitec.simpleimeeting.content.SimpleIMeetingActivity.SimpleIMeetingActivityContentViewType;
+import com.richitec.simpleimeeting.extension.view.SIMBaseView;
 
 public class ContactsSelectView extends SIMBaseView implements
 		NewTalkingGroupListener {
@@ -679,13 +681,13 @@ public class ContactsSelectView extends SIMBaseView implements
 						.put(getContext()
 								.getResources()
 								.getString(
-										R.string.bg_server_newTalkingGroup6inviteNewAddedAttendee_nickname),
+										R.string.rbgServer_newTalkingGroup6inviteNewAddedAttendee_nickname),
 								preinTalkingGroupContact.getDisplayName());
 				_preinTalkingGroupContactJSONObject
 						.put(getContext()
 								.getResources()
 								.getString(
-										R.string.bg_server_newTalkingGroup6inviteNewAddedAttendee_phone),
+										R.string.rbgServer_newTalkingGroup6inviteNewAddedAttendee_phone),
 								preinTalkingGroupContact.getExtension().get(
 										SELECTED_CONTACT_SELECTEDPHONE));
 			} catch (JSONException e) {
@@ -878,6 +880,13 @@ public class ContactsSelectView extends SIMBaseView implements
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			// hide input method manager not always
+			((InputMethodManager) getContext().getSystemService(
+					Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+					((EditText) findViewById(R.id.cs_cl_contactSearchEditText))
+							.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+
 			// get the click item view data: contact object
 			ContactBean _clickItemViewData = _mPresentContactsInABInfoArray
 					.get((int) id);
@@ -1424,13 +1433,13 @@ public class ContactsSelectView extends SIMBaseView implements
 							.put(getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
+											R.string.rbgServer_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
 									_mInviteNewAddedContacts2ExistedTalkingGroupConfId);
 					_inviteNewAddedContacts2TalkingGroupParamMap
 							.put(getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_attendees),
+											R.string.rbgServer_scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_attendees),
 									generateNewTalkingGroup6InviteNewAddedAttendees());
 
 					// post the http request
@@ -1488,10 +1497,10 @@ public class ContactsSelectView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			// get http response entity string json data
-			JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-					.getResponseText());
+			JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+					.getHttpResponseEntityString(response));
 
 			Log.d(LOG_TAG,
 					"Send get new talking group id get http request successful, response json data = "
@@ -1505,7 +1514,7 @@ public class ContactsSelectView extends SIMBaseView implements
 									getContext()
 											.getResources()
 											.getString(
-													R.string.bg_server_getMyTalkingGroups6newTalkingGroupIdReq_resp_id)));
+													R.string.rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id)));
 
 			// set current calendar for new talking group started time
 			// select date and time picker
@@ -1519,7 +1528,7 @@ public class ContactsSelectView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			Log.e(LOG_TAG,
 					"Send get new talking group id get http request failed!");
 
@@ -1805,13 +1814,13 @@ public class ContactsSelectView extends SIMBaseView implements
 							.put(getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
+											R.string.rbgServer_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId),
 									_mNewTalkingGroupId);
 					_scheduleNewTalkingGroupParamMap
 							.put(getContext()
 									.getResources()
 									.getString(
-											R.string.bg_server_scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_attendees),
+											R.string.rbgServer_scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_attendees),
 									generateNewTalkingGroup6InviteNewAddedAttendees());
 
 					// generate schedule new talking group http request listener
@@ -1853,7 +1862,7 @@ public class ContactsSelectView extends SIMBaseView implements
 								.put(getContext()
 										.getResources()
 										.getString(
-												R.string.bg_server_scheduleNewTalkingGroup_scheduleTime),
+												R.string.rbgServer_scheduleNewTalkingGroup_scheduleTime),
 										getSelectedStartedTime(NewTalkingGroupStartedTimeFormatType.POST4SCHEDULENEWTALKINGGROUP));
 
 						// schedule new talking group
@@ -1928,17 +1937,18 @@ public class ContactsSelectView extends SIMBaseView implements
 				OnHttpRequestListener {
 
 			@Override
-			public void onFinished(HttpResponseResult responseResult) {
+			public void onFinished(HttpRequest request, HttpResponse response) {
 				// get http response entity string json data
-				JSONObject _respJsonData = JSONUtils
-						.toJSONObject(responseResult.getResponseText());
+				JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+						.getHttpResponseEntityString(response));
 
 				Log.d(LOG_TAG,
 						"Send schedule new talking group post http request successful, response json data = "
 								+ _respJsonData);
 
 				// check response status code
-				if (HttpStatus.SC_CREATED == responseResult.getStatusCode()) {
+				if (HttpStatus.SC_CREATED == response.getStatusLine()
+						.getStatusCode()) {
 					// dismiss new talking group started time select popup
 					// window
 					dismiss();
@@ -1969,7 +1979,7 @@ public class ContactsSelectView extends SIMBaseView implements
 			}
 
 			@Override
-			public void onFailed(HttpResponseResult responseResult) {
+			public void onFailed(HttpRequest request, HttpResponse response) {
 				Log.e(LOG_TAG,
 						"Send schedule new talking group post http request failed!");
 
@@ -1992,7 +2002,7 @@ public class ContactsSelectView extends SIMBaseView implements
 			OnHttpRequestListener {
 
 		@Override
-		public void onFinished(HttpResponseResult responseResult) {
+		public void onFinished(HttpRequest request, HttpResponse response) {
 			Log.d(LOG_TAG,
 					"Send invite new added contacts to talking group post http request successful!");
 
@@ -2010,7 +2020,7 @@ public class ContactsSelectView extends SIMBaseView implements
 		}
 
 		@Override
-		public void onFailed(HttpResponseResult responseResult) {
+		public void onFailed(HttpRequest request, HttpResponse response) {
 			Log.e(LOG_TAG,
 					"Send invite new added contacts to talking group post http request failed!");
 

@@ -1,5 +1,7 @@
 package com.richitec.simpleimeeting.assistant.httprequestlistener;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
@@ -8,11 +10,10 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.richitec.commontoolkit.user.User;
 import com.richitec.commontoolkit.user.UserBean;
 import com.richitec.commontoolkit.user.UserManager;
 import com.richitec.commontoolkit.utils.DataStorageUtils;
-import com.richitec.commontoolkit.utils.HttpUtils.HttpResponseResult;
+import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.OnHttpRequestListener;
 import com.richitec.commontoolkit.utils.JSONUtils;
 import com.richitec.commontoolkit.utils.StringUtils;
@@ -20,6 +21,7 @@ import com.richitec.simpleimeeting.R;
 import com.richitec.simpleimeeting.SimpleIMeetingAppLaunchActivity;
 import com.richitec.simpleimeeting.assistant.SettingActivity;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension;
+import com.richitec.simpleimeeting.extension.user.SIMUserExtension.ComUserAttributes;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension.SIMUserExtAttributes;
 
 public class BindedAccountLoginHttpRequestListener extends
@@ -79,10 +81,10 @@ public class BindedAccountLoginHttpRequestListener extends
 	}
 
 	@Override
-	public void onFinished(HttpResponseResult responseResult) {
+	public void onFinished(HttpRequest request, HttpResponse response) {
 		// get http response entity string json data
-		JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-				.getResponseText());
+		JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+				.getHttpResponseEntityString(response));
 
 		Log.d(LOG_TAG,
 				"Send binded account login post http request successful, response json data = "
@@ -92,7 +94,7 @@ public class BindedAccountLoginHttpRequestListener extends
 		String _result = JSONUtils.getStringFromJSONObject(
 				_respJsonData,
 				_mContext.getResources().getString(
-						R.string.bg_server_req_resp_result));
+						R.string.rbgServer_req_resp_result));
 
 		// check result
 		if (null != _result && 0 == Integer.parseInt(_result)) {
@@ -104,28 +106,28 @@ public class BindedAccountLoginHttpRequestListener extends
 							_mContext
 									.getResources()
 									.getString(
-											R.string.bg_server_login6ContactInfoBindReq_resp_userId));
+											R.string.rbgServer_login6ContactInfoBindReq_resp_userId));
 			String _bindedAccountLoginRespUserKey = JSONUtils
 					.getStringFromJSONObject(
 							_respJsonData,
 							_mContext
 									.getResources()
 									.getString(
-											R.string.bg_server_login6ContactInfoBindReq_resp_userKey));
+											R.string.rbgServer_login6ContactInfoBindReq_resp_userKey));
 			String _bindedAccountLoginRespNickname = JSONUtils
 					.getStringFromJSONObject(
 							_respJsonData,
 							_mContext
 									.getResources()
 									.getString(
-											R.string.bg_server_login6ContactInfoBindReq_resp_nickname));
+											R.string.rbgServer_login6ContactInfoBindReq_resp_nickname));
 			String _bindedAccountLoginRespBindStatus = JSONUtils
 					.getStringFromJSONObject(
 							_respJsonData,
 							_mContext
 									.getResources()
 									.getString(
-											R.string.bg_server_login6reg7LoginWithDeviceIdReq_resp_bindStatus));
+											R.string.rbgServer_login6reg7LoginWithDeviceId7PhoneBindReq_resp_bindStatus));
 
 			Log.d(LOG_TAG,
 					"Binded account login successful, response user id = "
@@ -146,7 +148,7 @@ public class BindedAccountLoginHttpRequestListener extends
 				DataStorageUtils.putObject(
 						SIMUserExtAttributes.BIND_CONTACTINFO.name(),
 						_mManualLoginUserName);
-				DataStorageUtils.putObject(User.password.name(),
+				DataStorageUtils.putObject(ComUserAttributes.PASSWORD.name(),
 						StringUtils.md5(_mManualLoginPwd));
 
 				// generate manual login user and set password and bind contact
@@ -181,30 +183,30 @@ public class BindedAccountLoginHttpRequestListener extends
 						.updateMyAccount7ContactsInfoBindGroupUI();
 			}
 		} else {
-			processBindedAccountLoginException(responseResult);
+			processBindedAccountLoginException(response);
 		}
 	}
 
 	@Override
-	public void onFailed(HttpResponseResult responseResult) {
+	public void onFailed(HttpRequest request, HttpResponse response) {
 		Log.e(LOG_TAG, "Send binded account login post http request failed!");
 
-		processBindedAccountLoginException(responseResult);
+		processBindedAccountLoginException(response);
 	}
 
 	// process binded account login exception
-	private void processBindedAccountLoginException(
-			HttpResponseResult responseResult) {
+	private void processBindedAccountLoginException(HttpResponse response) {
 		// get and check response result
-		switch (responseResult.getStatusCode()) {
+		switch (response.getStatusLine().getStatusCode()) {
 		case HttpStatus.SC_ACCEPTED:
 		case HttpStatus.SC_CREATED:
 		case HttpStatus.SC_OK:
 			// get the result from http response json data
 			String _result = JSONUtils.getStringFromJSONObject(
-					JSONUtils.toJSONObject(responseResult.getResponseText()),
+					JSONUtils.toJSONObject(HttpUtils
+							.getHttpResponseEntityString(response)),
 					_mContext.getResources().getString(
-							R.string.bg_server_req_resp_result));
+							R.string.rbgServer_req_resp_result));
 
 			// check the result
 			if (null != _result) {

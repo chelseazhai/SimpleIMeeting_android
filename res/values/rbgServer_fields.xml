@@ -19,8 +19,8 @@
     <string name="rbgServer_login6ContactInfoBindReq_resp_userName" translatable="false">username</string>
     <string name="rbgServer_login6ContactInfoBindReq_resp_userKey" translatable="false">userkey</string>
     <string name="rbgServer_login6ContactInfoBindReq_resp_nickname" translatable="false">nickname</string>
-    <string name="rbgServer_login6reg7LoginWithDeviceIdReq_resp_bindStatus" translatable="false">bind_status</string>
-    <string name="rbgServer_loginUser_phoneBindStatus" translatable="false">bind_phone</string>
+    <string name="rbgServer_login6reg7LoginWithDeviceId7PhoneBindReq_resp_bindStatus" translatable="false">bind_status</string>
+    <string name="rbgServer_login6reg7LoginWithDeviceId7PhoneBind_phoneBindedStatus" translatable="false">bind_phone</string>
     <string name="rbgServer_reg7LoginWithDeviceId6ContactInfoBind_deviceId" translatable="false">deviceId</string>
 
     <!-- phone and email bind -->

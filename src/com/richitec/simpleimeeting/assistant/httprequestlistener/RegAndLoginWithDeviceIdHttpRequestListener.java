@@ -1,5 +1,7 @@
 package com.richitec.simpleimeeting.assistant.httprequestlistener;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -8,11 +10,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.richitec.commontoolkit.user.User;
 import com.richitec.commontoolkit.user.UserBean;
 import com.richitec.commontoolkit.user.UserManager;
 import com.richitec.commontoolkit.utils.DataStorageUtils;
-import com.richitec.commontoolkit.utils.HttpUtils.HttpResponseResult;
+import com.richitec.commontoolkit.utils.HttpUtils;
 import com.richitec.commontoolkit.utils.HttpUtils.OnHttpRequestListener;
 import com.richitec.commontoolkit.utils.JSONUtils;
 import com.richitec.simpleimeeting.R;
@@ -20,6 +21,7 @@ import com.richitec.simpleimeeting.SimpleIMeetingAppLaunchActivity;
 import com.richitec.simpleimeeting.assistant.NetworkUnavailabelActivity;
 import com.richitec.simpleimeeting.assistant.SettingActivity;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension;
+import com.richitec.simpleimeeting.extension.user.SIMUserExtension.ComUserAttributes;
 import com.richitec.simpleimeeting.extension.user.SIMUserExtension.SIMUserExtAttributes;
 
 public class RegAndLoginWithDeviceIdHttpRequestListener extends
@@ -65,10 +67,10 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 	}
 
 	@Override
-	public void onFinished(HttpResponseResult responseResult) {
+	public void onFinished(HttpRequest request, HttpResponse response) {
 		// get http response entity string json data
-		JSONObject _respJsonData = JSONUtils.toJSONObject(responseResult
-				.getResponseText());
+		JSONObject _respJsonData = JSONUtils.toJSONObject(HttpUtils
+				.getHttpResponseEntityString(response));
 
 		Log.d(LOG_TAG,
 				"Send register and login with device combined unique id post http request successful, response json data = "
@@ -78,7 +80,7 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 		String _result = JSONUtils.getStringFromJSONObject(
 				_respJsonData,
 				_mContext.getResources().getString(
-						R.string.bg_server_req_resp_result));
+						R.string.rbgServer_req_resp_result));
 
 		// check result
 		if (null != _result) {
@@ -92,21 +94,21 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 								_mContext
 										.getResources()
 										.getString(
-												R.string.bg_server_login6ContactInfoBindReq_resp_userId));
+												R.string.rbgServer_login6ContactInfoBindReq_resp_userId));
 				String _reg7LoginWithDeviceIdRespUserKey = JSONUtils
 						.getStringFromJSONObject(
 								_respJsonData,
 								_mContext
 										.getResources()
 										.getString(
-												R.string.bg_server_login6ContactInfoBindReq_resp_userKey));
+												R.string.rbgServer_login6ContactInfoBindReq_resp_userKey));
 				String _reg7LoginWithDeviceIdRespBindStatus = JSONUtils
 						.getStringFromJSONObject(
 								_respJsonData,
 								_mContext
 										.getResources()
 										.getString(
-												R.string.bg_server_login6reg7LoginWithDeviceIdReq_resp_bindStatus));
+												R.string.rbgServer_login6reg7LoginWithDeviceId7PhoneBindReq_resp_bindStatus));
 
 				Log.d(LOG_TAG,
 						"Register and login with device combined unique id successful, response user id = "
@@ -136,7 +138,8 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 					// clear login user name and password to local storage
 					DataStorageUtils.putObject(
 							SIMUserExtAttributes.BIND_CONTACTINFO.name(), "");
-					DataStorageUtils.putObject(User.password.name(), "");
+					DataStorageUtils.putObject(ComUserAttributes.NAME.name(),
+							"");
 				}
 				break;
 
@@ -157,7 +160,7 @@ public class RegAndLoginWithDeviceIdHttpRequestListener extends
 	}
 
 	@Override
-	public void onFailed(HttpResponseResult responseResult) {
+	public void onFailed(HttpRequest request, HttpResponse response) {
 		Log.e(LOG_TAG,
 				"Send register and login with device combined unique id post http request failed!");
 
