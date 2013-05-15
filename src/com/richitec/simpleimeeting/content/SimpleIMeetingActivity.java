@@ -152,15 +152,6 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.d(LOG_TAG, "@@@, request code = " + requestCode
-				+ ", result code = " + resultCode + " and data = " + data);
-
-		for (String dataExtraskey : data.getExtras().keySet()) {
-			Log.d(LOG_TAG, "!!!, data extra key = " + dataExtraskey
-					+ " and extra data = "
-					+ data.getExtras().get(dataExtraskey));
-		}
-
 		// check request code
 		switch (requestCode) {
 		case MYACCOUNT_CHANGED:
@@ -189,6 +180,8 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 							}
 						}
 					}
+				} else {
+					Log.e(LOG_TAG, "On activity result, intent data = " + data);
 				}
 				break;
 
