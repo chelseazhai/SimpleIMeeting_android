@@ -1960,8 +1960,11 @@ public class ContactsSelectView extends SIMBaseView implements
 									R.id.tgsts_talkingGroupStartedTimeSelect_inviteNoteTextView))
 							.getText().toString());
 
-					// switch to my talking groups view and update my talking
-					// group list
+					// mark my talking group list needed not to refresh later
+					// and switch to my talking groups view and update my
+					// talking group list
+					((SimpleIMeetingActivity) getContext())
+							.markMyTalkingGroupsNeededNot2RefreshLater();
 					((SimpleIMeetingActivity) getContext())
 							.switch2myTalkingGroupsView(MyTalkingGroupsViewRefreshType.TALKINGGROUPS);
 
