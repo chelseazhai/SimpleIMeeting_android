@@ -45,7 +45,7 @@
     <string name="rbgServer_getMyTalkingGroups6newTalkingGroupIdReq_resp_id" translatable="false">conferenceId</string>
     <string name="rbgServer_getMyTalkingGroupsReq_resp_status" translatable="false">status</string>
     <string name="rbgServer_myTalkingGroup_talkingGroupOpened" translatable="false">OPEN</string>
-    <string name="rbgServer_myTalkingGroup_talkingGroupSchedule" translatable="false">SCHEDULE</string>
+    <string name="rbgServer_myTalkingGroup_talkingGroupScheduled" translatable="false">SCHEDULE</string>
     <string name="rbgServer_getMyTalkingGroupsReq_resp_attendees" translatable="false">attendees</string>
     <string name="rbgServer_myTalkingGroupAttendee_phone" translatable="false">phone</string>
     <string name="rbgServer_getTalkingGroupAttendees6scheduleNewTalkingGroup6inviteNewAddedContacts2TalkingGroup_confId" translatable="false">conferenceId</string>

@@ -151,6 +151,15 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		// get simple imeeting main activity content view(simple imeeting view)
+		// and call its onDestroy method
+		_mContentView.onDestroy();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// check request code
 		switch (requestCode) {
