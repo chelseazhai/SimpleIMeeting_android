@@ -507,7 +507,6 @@ public class SimpleIMeetingActivity extends SimpleIMeetingNavigationActivity {
 				switch (menuItemId) {
 				case SETTING_MENU:
 					// goto setting activity
-					// pushActivity(SettingActivity.class);
 					pushActivityForResult(SettingActivity.class,
 							MYACCOUNT_CHANGED);
 					break;
