@@ -66,10 +66,6 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 	private final String GROUP_SELECTED4ITEM = "group_selected_for_item";
 	private final String GROUP_SELECTED4DETAIL = "group_selected_for_detail";
 
-	// my talking group listView item adapter extra data keys
-	private final String GROUP_EXT_STARTEDTIMESTAMP = "group_extra_startedTimestamp";
-	private final String GROUP_EXT_STATUS = "group_extra_status";
-
 	// my talking group started time date format, format unix timeStamp
 	private final DateFormat MYTALKINGGROUP_STARTEDTIMEDATEFORMAT = new SimpleDateFormat(
 			"yy-MM-dd HH:mm", Locale.getDefault());
@@ -159,10 +155,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 											for (int i = 0; i < _mMyTalkingGroupAdapterDataList
 													.size(); i++) {
 												// get my talking group adapter
-												// data map
+												// data map and info
 												@SuppressWarnings("unchecked")
 												Map<String, Object> _myTalkingGroupAdapterDataMap = (Map<String, Object>) _mMyTalkingGroupAdapterDataList
 														.get(i);
+												JSONObject _myTalkingGroupInfo = JSONUtils
+														.getJSONObjectFromJSONArray(
+																_mMyTalkingGroupsInfoArray,
+																i);
 
 												// if my talking group status is
 												// opened, skip it
@@ -171,16 +171,26 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 														.getString(
 																R.string.rbgServer_myTalkingGroup_talkingGroupOpened)
 														.equalsIgnoreCase(
-																(String) _myTalkingGroupAdapterDataMap
-																		.get(GROUP_EXT_STATUS))) {
+																JSONUtils
+																		.getStringFromJSONObject(
+																				_myTalkingGroupInfo,
+																				getContext()
+																						.getResources()
+																						.getString(
+																								R.string.rbgServer_getMyTalkingGroupsReq_resp_status)))) {
 													continue;
 												} else {
 													// update my talking group
 													// status
 													_myTalkingGroupAdapterDataMap
 															.put(GROUP_STATUS,
-																	getScheduledTalkingGroupStatusString((Long) _myTalkingGroupAdapterDataMap
-																			.get(GROUP_EXT_STARTEDTIMESTAMP)));
+																	getScheduledTalkingGroupStatusString(JSONUtils
+																			.getLongFromJSONObject(
+																					_myTalkingGroupInfo,
+																					getContext()
+																							.getResources()
+																							.getString(
+																									R.string.rbgServer_getMyTalkingGroupsReq_resp_startedTimestamp))));
 
 													// notify my talking group
 													// adapter changed
@@ -334,10 +344,6 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 									.getResources()
 									.getString(
 											R.string.rbgServer_getMyTalkingGroupsReq_resp_status));
-
-			// set extra data: talking group status and started timestamp
-			_dataMap.put(GROUP_EXT_STATUS, (String) _groupStatus);
-			_dataMap.put(GROUP_EXT_STARTEDTIMESTAMP, _groupStartedTimestamp);
 
 			// check my talking group status and reset my talking group started
 			// time, group id and status
@@ -1052,11 +1058,14 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 								GROUP_SELECTED4DETAIL, null);
 					}
 
-					// get my talking group adapter data map for current
-					// selected
+					// get my talking group adapter data map and info for
+					// current selected
 					@SuppressWarnings("unchecked")
 					Map<String, Object> _myTalkingGroupAdapterDataMap = (Map<String, Object>) _mMyTalkingGroupAdapter
 							.getItem((int) id);
+					JSONObject _myTalkingGroupInfo = JSONUtils
+							.getJSONObjectFromJSONArray(
+									_mMyTalkingGroupsInfoArray, (int) id);
 
 					// update selected talking group item background and show
 					// detail info
@@ -1077,8 +1086,13 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 															.getString(
 																	R.string.rbgServer_myTalkingGroup_talkingGroupOpened)
 															.equalsIgnoreCase(
-																	(String) _myTalkingGroupAdapterDataMap
-																			.get(GROUP_EXT_STATUS)) ? R.drawable.img_openedmytalkinggroup_detailinfo
+																	JSONUtils
+																			.getStringFromJSONObject(
+																					_myTalkingGroupInfo,
+																					getContext()
+																							.getResources()
+																							.getString(
+																									R.string.rbgServer_getMyTalkingGroupsReq_resp_status))) ? R.drawable.img_openedmytalkinggroup_detailinfo
 															: R.drawable.img_scheduledmytalkinggroup_detailinfo));
 
 					// notify my talking group adapter changed
