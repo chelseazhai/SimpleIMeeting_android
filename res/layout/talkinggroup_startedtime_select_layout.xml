@@ -19,7 +19,8 @@
         <RelativeLayout
             android:id="@+id/tgsts_header_relativeLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" >
 
             <Button
                 android:id="@+id/tgsts_talkingGroupStartedTimeSelect_cancelBtn"
@@ -74,24 +75,14 @@
                 android:text="@string/talkingGroupStartedTimeSelect_inviteNoteCpoyBtn_title" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/tgsts_date7timePicker_linearLayout"
+        <com.richitec.simpleimeeting.customcomponent.SimpleIMeetingDate7TimePicker
+            android:id="@+id/tgsts_talkingGroupStartedTimeSelect_date7timePicker"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <DatePicker
-                android:id="@+id/tgsts_talkingGroupStartedTimeSelect_datePicker"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TimePicker
-                android:id="@+id/tgsts_talkingGroupStartedTimeSelect_timePicker"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/light_dim_gray" >
+        </com.richitec.simpleimeeting.customcomponent.SimpleIMeetingDate7TimePicker>
     </LinearLayout>
 
 </FrameLayout>

@@ -287,6 +287,9 @@ public class MyTalkingGroupsView extends SIMBaseView implements
 
 	// send get my talking group list post http request
 	private void sendGetMyTalkingGroupsHttpRequest() {
+		// clear selected talking group index
+		_mSelectedTalkingGroupIndex = null;
+
 		// remove my talking group list view footer view first
 		_mMyTalkingGroupListView
 				.removeFooterView(_mMyTalkingGroupListViewFooterView);
