@@ -717,7 +717,7 @@ public class ContactsSelectView extends SIMBaseView implements
 
 			// add more recipient
 			if (recipients.size() - 1 != i) {
-				_recipients.append(',');
+				_recipients.append(';');
 			}
 		}
 
